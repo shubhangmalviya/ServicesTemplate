@@ -1,18 +1,21 @@
-package com.daffodilsw.servicestemplate.post.formdata;
+package com.daffodilsw.servicestemplate.post.raw;
 
 import com.daffodilsw.servicestemplate.*;
+import com.daffodilsw.servicestemplate.post.formdata.APIUtils;
+import com.daffodilsw.servicestemplate.post.formdata.FormDataService;
+import com.daffodilsw.servicestemplate.post.formdata.ResFormData;
 import retrofit2.Call;
 
-public class FormDataApiRequest implements ApiRequest{
+public class RawApiRequest implements ApiRequest{
 
     Call<ResFormData> mResFormDataCall;
 
-    public void makeRequest(ReqSampleFormData reqSampleFormData, ErrorMessageResolver errorMessageResolver
+    public void makeRequest(RawRequest reqRawData, ErrorMessageResolver errorMessageResolver
             , ResponseCallback<ResFormData> responseCallback) {
 
         FormDataService beeahServices = ServiceManager.get().createService(FormDataService.class);
-        mResFormDataCall = beeahServices.makeFormDataRequest(ServiceManager.SERVICE_ENDPOINT + reqSampleFormData.getEndPoint(), reqSampleFormData.getFilePart(),
-                reqSampleFormData.getRequestBodyMap());
+//        mResFormDataCall = beeahServices.makeFormDataRequest(ServiceManager.SERVICE_ENDPOINT + reqRawData.getPath(), null,
+//                reqRawData.getReqBody());
 //        mResFormDataCall.enqueue(new ResponseWrapper<>(errorMessageResolver, responseCallback));
 
     }
