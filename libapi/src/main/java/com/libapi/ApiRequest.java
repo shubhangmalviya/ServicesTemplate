@@ -1,4 +1,4 @@
-package com.daffodilsw.servicestemplate;
+package com.libapi;
 
 public interface ApiRequest {
     void cancel();

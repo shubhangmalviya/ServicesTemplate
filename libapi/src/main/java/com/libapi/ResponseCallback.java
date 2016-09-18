@@ -1,4 +1,4 @@
-package com.daffodilsw.servicestemplate;
+package com.libapi;
 
 import android.support.annotation.NonNull;
 

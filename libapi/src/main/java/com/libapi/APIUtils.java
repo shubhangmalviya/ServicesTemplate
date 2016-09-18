@@ -1,4 +1,4 @@
-package com.daffodilsw.servicestemplate.post.formdata;
+package com.libapi;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;

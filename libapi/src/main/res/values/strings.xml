@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RetrofitStyle</string>
+    <string name="some_error_occurred">Some Error Occurred</string>
+    <string name="internet_error">Please ensure you are connected to the internet</string>
+</resources>
