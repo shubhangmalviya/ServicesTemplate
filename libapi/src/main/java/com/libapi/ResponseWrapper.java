@@ -1,6 +1,5 @@
 package com.libapi;
 
-import java.io.IOException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 
@@ -16,81 +15,56 @@ import retrofit2.Response;
  */
 public class ResponseWrapper<T> implements Callback<T> {
 
-    private final ErrorMessageResolver mErrorMessageResolver;
-    private final ResponseCallback<T> mResponseCallback;
-    private final ErrorResponseTransformer mErrorResponseTransformer;
+    private final Notifier<T> mNotifier;
+    private final ErrorPayloadHandler mErrorPayloadHandler;
 
     /**
      *
      * Creates an instance.
      *
-     * @param errorMessageResolver the error message resolver.
      * @param responseCallback the error response callback.
-     * @param errorResponseTransformer an error transformer instance that could mutate the error mappings.
+     * @param errorResponseTransformer an error transformer instance that
+     *                                 could mutate the error mappings.
      */
-    public ResponseWrapper(ErrorMessageResolver errorMessageResolver,
-                           ResponseCallback<T> responseCallback,
-                           ErrorResponseTransformer errorResponseTransformer) {
-        mErrorMessageResolver = errorMessageResolver;
-        mResponseCallback = responseCallback;
-        mErrorResponseTransformer = errorResponseTransformer;
+    public ResponseWrapper(ErrorResponseTransformer errorResponseTransformer,
+                           ResponseCallback<T> responseCallback) {
+        ErrorLookupTable errorLookupTable = errorResponseTransformer.getErrorLookupTable();
+        mNotifier = new Notifier<>(responseCallback, errorLookupTable);
+        mErrorPayloadHandler = new ErrorPayloadHandler(errorResponseTransformer, mNotifier);
     }
 
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
 
-        // if the response is successful then simply forward the success response to the callbacks.
         if (response.isSuccessful()) {
-            mResponseCallback.onSuccess(response.body());
+            handleSuccessResponse(response);
             return;
         }
 
-        String errorBodyPayload;
+        handleErrorResponse(response);
+    }
 
-        try {
+    private void handleSuccessResponse(Response<T> response) {
+        // if the response is successful then simply forward the success response to the callbacks.
+        mNotifier.notifyWithSuccess(response.body());
+    }
 
-            // ... in case of error response we need to extract the error payload.
-            errorBodyPayload = response.errorBody().string();
-            // read the status code.
-            int httpStatusCode = response.code();
-
-            // create error response.
-            ErrorResponse errorResponse = new ErrorResponse(httpStatusCode, errorBodyPayload);
-
-            if (mErrorResponseTransformer != null) {
-                mErrorResponseTransformer.transform(errorBodyPayload, errorResponse, mErrorMessageResolver);
-            }
-
-            // notify the error response callbacks.
-            mResponseCallback.onFailure(errorResponse);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            ErrorResponse errorResponse = new ErrorResponse(R.string.some_error_occurred);
-            errorResponse.setThrowable(e);
-            mResponseCallback.onFailure(errorResponse);
-        }
+    private void handleErrorResponse(Response<T> response) {
+        mErrorPayloadHandler.handleErrorPayload(response);
     }
 
     @Override
     public void onFailure(Call<T> call, Throwable throwable) {
 
         // Handle the failure gracefully.
-        ErrorResponse errorResponse;
-
         if (throwable instanceof ConnectException
                 || throwable instanceof UnknownHostException) {
             // Network error
-            errorResponse = new ErrorResponse(R.string.internet_error);
+            mNotifier.notifyConnectivityError(throwable);
         } else {
             // some more complex error occurred like conversion etc.
-            errorResponse = new ErrorResponse(R.string.some_error_occurred);
+            mNotifier.notifyUnknownError(throwable);
         }
-
-        //... set the error in the response for debugging.
-        errorResponse.setThrowable(throwable);
-        // notify the callers.
-        mResponseCallback.onFailure(errorResponse);
 
     }
 }

@@ -4,49 +4,50 @@ public class ErrorResponse {
 
     public static final int INVALID_STATUS_CODE = 1001;
 
-    private final int mStatusCode;
-    private final String mErrorResponsePayload;
+    private int mStatusCode = INVALID_STATUS_CODE;
+    private String mErrorResponsePayload;
 
     private int mErrorCode;
     private int mErrorMessage;
     private Throwable mThrowable;
 
-    public ErrorResponse(int statusCode, String errorResponsePayload) {
-        mStatusCode = statusCode;
-        mErrorResponsePayload = errorResponsePayload;
-    }
-
-    public ErrorResponse(int errorMessage) {
-        mErrorMessage = errorMessage;
-        mStatusCode = INVALID_STATUS_CODE;
-        mErrorResponsePayload = null;
-    }
-
-    public void setErrorCode(int errorCode) {
-        mErrorCode = errorCode;
-    }
-
-    public void setThrowable(Throwable throwable) {
-        mThrowable = throwable;
-    }
-
-    public int getErrorCode() {
-        return mErrorCode;
-    }
-
     public int getStatusCode() {
         return mStatusCode;
     }
 
-    public int getErrorMessage() {
-        return mErrorMessage;
+    public void setStatusCode(int statusCode) {
+        mStatusCode = statusCode;
     }
 
     public String getErrorResponsePayload() {
         return mErrorResponsePayload;
     }
 
+    public void setErrorResponsePayload(String errorResponsePayload) {
+        mErrorResponsePayload = errorResponsePayload;
+    }
+
+    public int getErrorCode() {
+        return mErrorCode;
+    }
+
+    public void setErrorCode(int errorCode) {
+        mErrorCode = errorCode;
+    }
+
+    public int getErrorMessage() {
+        return mErrorMessage;
+    }
+
+    public void setErrorMessage(int errorMessage) {
+        mErrorMessage = errorMessage;
+    }
+
     public Throwable getThrowable() {
         return mThrowable;
+    }
+
+    public void setThrowable(Throwable throwable) {
+        mThrowable = throwable;
     }
 }

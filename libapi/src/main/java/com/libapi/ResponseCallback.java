@@ -1,7 +1,5 @@
 package com.libapi;
 
-import android.support.annotation.NonNull;
-
 /**
  * The Response callback invoked after the result is received and analysed.
  *
@@ -14,7 +12,7 @@ public interface ResponseCallback<T> {
      *
      * @param data  the success response data
      */
-    void onSuccess(@NonNull T data);
+    void onSuccess(T data);
 
     /**
      * Invoked when we encounter any error from the APIs.
@@ -22,6 +20,6 @@ public interface ResponseCallback<T> {
      * @param errorResponse the error response with proper display message
      *                      and proper information for debugging.
      */
-    void onFailure(@NonNull ErrorResponse errorResponse);
+    void onFailure(ErrorResponse errorResponse);
 
 }
