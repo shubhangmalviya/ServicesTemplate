@@ -9,15 +9,14 @@ import com.libapi.ServiceCreator;
 
 import retrofit2.Call;
 
-public class FormEncodedApiRequest extends ApiRequest<ReqRawData, ResRawData> {
+public class FormEncodedApiRequest extends ApiRequest<ReqRawData, ResRawData, RawDataService> {
 
     public FormEncodedApiRequest(ErrorResponseTransformer errorResponseTransformer, ServiceCreator serviceCreator) {
-        super(errorResponseTransformer, serviceCreator);
+        super(errorResponseTransformer, serviceCreator, RawDataService.class);
     }
 
     @Override
-    protected Call<ResRawData> makeRequest(ReqRawData reqRawData, ServiceCreator serviceCreator) {
-        RawDataService service = serviceCreator.createService(RawDataService.class);
+    protected Call<ResRawData> makeRequest(ReqRawData reqRawData, RawDataService service) {
         return service.postRequest(reqRawData);
     }
 

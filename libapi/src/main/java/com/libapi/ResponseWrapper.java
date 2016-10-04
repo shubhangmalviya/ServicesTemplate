@@ -1,11 +1,11 @@
 package com.libapi;
 
-import java.net.ConnectException;
-import java.net.UnknownHostException;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 
 /**
  * A wrapper layer over the retrofit callback, written for distinguishing the success
@@ -44,11 +44,19 @@ public class ResponseWrapper<T> implements Callback<T> {
         handleErrorResponse(response);
     }
 
+    /**
+     * A handler of success response that informs the listeners.
+     * @param response the success response.
+     */
     private void handleSuccessResponse(Response<T> response) {
         // if the response is successful then simply forward the success response to the callbacks.
         mNotifier.notifyWithSuccess(response.body());
     }
 
+    /**
+     * A handler of error response that informs the listeners.
+     * @param response the failure response.
+     */
     private void handleErrorResponse(Response<T> response) {
         mErrorPayloadHandler.handleErrorPayload(response);
     }

@@ -10,11 +10,12 @@ import retrofit2.Call;
  * @param <RESPONSE> the type of response object.
  */
 // Future we have to prepare error response message.
-public abstract class ApiRequest<REQUEST, RESPONSE> {
+public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
 
     private final ErrorResponseTransformer mErrorResponseTransformer;
     private final ServiceCreator mServiceCreator;
     private Call<RESPONSE> mApiCall;
+    private Class<SERVICE> mServiceClass;
 
     /**
      * Creates an instance of the api request.
@@ -23,19 +24,20 @@ public abstract class ApiRequest<REQUEST, RESPONSE> {
      * @param serviceCreator the configured service manager for creating the services instances.
      */
     public ApiRequest(ErrorResponseTransformer errorResponseTransformer,
-                      ServiceCreator serviceCreator) {
+                      ServiceCreator serviceCreator, Class<SERVICE> serviceClass) {
         mErrorResponseTransformer = errorResponseTransformer;
         mServiceCreator = serviceCreator;
+        mServiceClass = serviceClass;
     }
 
     /**
      * Makes the actual API request.
      *
      * @param request the request object.
-     * @param serviceCreator the implementation of {@link ServiceCreator} class.
+     * @param service the service class which could make request.
      * @return the API call instance.
      */
-    protected abstract Call<RESPONSE> makeRequest(REQUEST request, ServiceCreator serviceCreator);
+    protected abstract Call<RESPONSE> makeRequest(REQUEST request, SERVICE service);
 
     /**
      * Invokes an API request on the cloud.
@@ -44,7 +46,8 @@ public abstract class ApiRequest<REQUEST, RESPONSE> {
      * @param responseCallback the response callback.
      */
     public void makeRequest(REQUEST request, ResponseCallback<RESPONSE> responseCallback) {
-        mApiCall = makeRequest(request, mServiceCreator);
+        SERVICE service = mServiceCreator.createService(mServiceClass);
+        mApiCall = makeRequest(request, service);
         mApiCall.enqueue(new ResponseWrapper<>(mErrorResponseTransformer, responseCallback));
     }
 

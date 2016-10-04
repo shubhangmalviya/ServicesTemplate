@@ -1,9 +1,9 @@
 package com.libapi;
 
-import java.io.IOException;
-
 import okhttp3.ResponseBody;
 import retrofit2.Response;
+
+import java.io.IOException;
 
 /**
  * Class that handles the error payload and converts them into the appropriate error response.
@@ -39,14 +39,16 @@ class ErrorPayloadHandler {
         // ... in case of error response we need to extract the error payload.
         errorBodyPayload = errorResponseBody.string();
 
-        ErrorResponse errorResponse = new ErrorResponse();
+        ErrorResponse errorResponse;
 
         if (mErrorResponseTransformer != null) {
-            errorResponse = mErrorResponseTransformer.transform(errorBodyPayload);
+            errorResponse = mErrorResponseTransformer.transform(httpStatusCode, errorBodyPayload);
+        }else {
+            errorResponse = new ErrorResponse.Builder()
+                    .withStatusCode(httpStatusCode)
+                    .withErrorResponsePayload(errorBodyPayload)
+                    .build();
         }
-
-        errorResponse.setStatusCode(httpStatusCode);
-        errorResponse.setErrorResponsePayload(errorBodyPayload);
 
         return errorResponse;
     }

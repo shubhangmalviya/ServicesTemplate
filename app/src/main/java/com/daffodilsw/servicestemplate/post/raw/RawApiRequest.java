@@ -6,16 +6,15 @@ import com.libapi.ServiceCreator;
 
 import retrofit2.Call;
 
-public class RawApiRequest extends ApiRequest<ReqRawData, ResRawData> {
+public class RawApiRequest extends ApiRequest<ReqRawData, ResRawData, RawDataService> {
 
     public RawApiRequest(ErrorResponseTransformer errorResponseTransformer,
                          ServiceCreator serviceCreator) {
-        super(errorResponseTransformer, serviceCreator);
+        super(errorResponseTransformer, serviceCreator, RawDataService.class);
     }
 
     @Override
-    protected Call<ResRawData> makeRequest(ReqRawData reqRawData, ServiceCreator serviceCreator) {
-        RawDataService service = serviceCreator.createService(RawDataService.class);
-        return service.postRequest(reqRawData);
+    protected Call<ResRawData> makeRequest(ReqRawData reqRawData, RawDataService rawDataService) {
+        return rawDataService.postRequest(reqRawData);
     }
 }

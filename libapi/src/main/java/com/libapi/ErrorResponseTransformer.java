@@ -19,9 +19,10 @@ public abstract class ErrorResponseTransformer {
     /**
      * Provides an easy way to intercept and mutate the Error response delivered.
      *
+     * @param httpStatusCode the HTTP status code.
      * @param errorResponsePayload the error response payload received.
      */
-    public abstract ErrorResponse transform(String errorResponsePayload);
+    public abstract ErrorResponse transform(int httpStatusCode, String errorResponsePayload);
 
     /**
      * Gets the error message resolver associated with this instance.

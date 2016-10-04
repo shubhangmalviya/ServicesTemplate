@@ -6,17 +6,15 @@ import com.libapi.ServiceCreator;
 
 import retrofit2.Call;
 
-public class FormDataApiRequest extends ApiRequest<ReqSampleFormData, ResFormData> {
+public class FormDataApiRequest extends ApiRequest<ReqSampleFormData, ResFormData, FormDataService> {
 
     public FormDataApiRequest(ServiceCreator serviceCreator,
                               ErrorResponseTransformer errorResponseTransformer) {
-        super(errorResponseTransformer, serviceCreator);
+        super(errorResponseTransformer, serviceCreator, FormDataService.class);
     }
 
     @Override
-    protected Call<ResFormData> makeRequest(ReqSampleFormData reqSampleFormData, ServiceCreator serviceCreator) {
-        FormDataService beeahServices = serviceCreator.createService(FormDataService.class);
-
+    protected Call<ResFormData> makeRequest(ReqSampleFormData reqSampleFormData, FormDataService beeahServices) {
         return beeahServices.makeFormDataRequest(reqSampleFormData.getEndPoint(), reqSampleFormData.getFilePart(),
                 reqSampleFormData.getRequestBodyMap());
     }
