@@ -1,1 +1,1 @@
-include ':app', ':libapi'
+include ':app', ':libapi', ':libservices', ':libpreferences'
