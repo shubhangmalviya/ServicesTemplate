@@ -1,9 +1,21 @@
 package com.libapi;
 
+import retrofit2.Retrofit;
+
 /**
  * An implementation of the web services instance creator.
  */
-public interface ServiceCreator {
+public class ServiceCreator {
+
+    private final Retrofit mRetrofit;
+
+    /**
+     * Creates an instance.
+     * @param retrofit  the retrofit object.
+     */
+    public ServiceCreator(Retrofit retrofit) {
+        mRetrofit = retrofit;
+    }
 
     /**
      * Creates the services for a given HTTP Url, useful when testing
@@ -13,6 +25,8 @@ public interface ServiceCreator {
      * @param clazz the service class.
      * @return the created services implementation.
      */
-    <T> T createService(Class<T> clazz);
+    public <T> T createService(Class<T> clazz) {
+        return mRetrofit.create(clazz);
+    }
 
 }

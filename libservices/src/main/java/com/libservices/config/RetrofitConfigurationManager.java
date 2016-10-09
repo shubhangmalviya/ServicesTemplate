@@ -6,11 +6,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitConfigurationManager {
 
-    public Retrofit createRetrofit(String serviceEndpoint, RequestInterceptor interceptor) {
+    public Retrofit createRetrofit(String serviceEndpoint, HeaderRequestInterceptor interceptor) {
 
         Retrofit.Builder builder = new Retrofit.Builder().baseUrl(serviceEndpoint);
-
-        configureInterceptor(builder);
 
         configureConverterFactory(builder);
 
@@ -19,15 +17,11 @@ public class RetrofitConfigurationManager {
         return builder.build();
     }
 
-    private void configureInterceptor(Retrofit.Builder retrofit) {
-
-    }
-
     private void configureConverterFactory(Retrofit.Builder retrofit) {
         retrofit.addConverterFactory(GsonConverterFactory.create());
     }
 
-    private void configureClient(Retrofit.Builder retrofit, RequestInterceptor interceptor) {
+    private void configureClient(Retrofit.Builder retrofit, HeaderRequestInterceptor interceptor) {
 
         OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -35,6 +29,4 @@ public class RetrofitConfigurationManager {
 
         retrofit.client(okHttpClient);
     }
-
-
 }

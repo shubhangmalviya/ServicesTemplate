@@ -1,4 +1,4 @@
-package com.libpreferences;
+package com.libpersistance;
 
 public class SessionManager {
 
