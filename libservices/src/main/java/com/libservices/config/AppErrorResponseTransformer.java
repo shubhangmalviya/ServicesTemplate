@@ -4,6 +4,9 @@ import com.libapi.ErrorLookupTable;
 import com.libapi.ErrorResponse;
 import com.libapi.ErrorResponseTransformer;
 
+/**
+ * Translates the error response according to the app business logic.
+ */
 public class AppErrorResponseTransformer extends ErrorResponseTransformer {
 
     /**
@@ -17,6 +20,9 @@ public class AppErrorResponseTransformer extends ErrorResponseTransformer {
 
     @Override
     public ErrorResponse transform(int httpStatusCode, String errorResponsePayload) {
-        return null;
+
+        return new ErrorResponse.Builder()
+                .withStatusCode(httpStatusCode)
+                .build();
     }
 }

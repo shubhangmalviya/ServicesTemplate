@@ -1,8 +1,8 @@
-package com.daffodilsw.servicestemplate.post.urlformencoded;
+package com.libservices.post.urlformencoded;
 
-import com.daffodilsw.servicestemplate.post.raw.RawDataService;
-import com.daffodilsw.servicestemplate.post.raw.ReqRawData;
-import com.daffodilsw.servicestemplate.post.raw.ResRawData;
+import com.libservices.post.raw.RawDataService;
+import com.libservices.post.raw.ReqRawData;
+import com.libservices.post.raw.ResRawData;
 import com.libapi.ApiRequest;
 import com.libapi.ErrorResponseTransformer;
 import com.libapi.ServiceCreator;

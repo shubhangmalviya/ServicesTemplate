@@ -1,10 +1,10 @@
-package com.daffodilsw.servicestemplate.post.raw;
+package com.libservices.post.formdata;
 
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 
 @JsonObject
-public class ReqRawData {
+public class ResFormData {
 
     @JsonField(name = "user_id")
     public String mUserId;

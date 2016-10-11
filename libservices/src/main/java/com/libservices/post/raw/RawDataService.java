@@ -1,4 +1,4 @@
-package com.daffodilsw.servicestemplate.post.raw;
+package com.libservices.post.raw;
 
 
 import retrofit2.Call;

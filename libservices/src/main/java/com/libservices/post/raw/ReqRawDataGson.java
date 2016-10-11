@@ -1,4 +1,4 @@
-package com.libservices.raw;
+package com.libservices.post.raw;
 
 import com.google.gson.annotations.SerializedName;
 
