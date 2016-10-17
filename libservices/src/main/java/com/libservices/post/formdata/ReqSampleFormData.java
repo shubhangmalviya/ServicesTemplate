@@ -1,11 +1,12 @@
 package com.libservices.post.formdata;
 
-import com.libapi.APIUtils;
-
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
@@ -17,7 +18,7 @@ public class ReqSampleFormData {
 
     private ReqSampleFormData(Builder builder) {
         mRequestBodyMap = builder.mRequestBodyMap;
-        mFilePart = builder.mFilePart;
+        mFilePart = builder.mFilePartList;
         mEndPoint = builder.mEndPoint;
     }
 
@@ -38,32 +39,34 @@ public class ReqSampleFormData {
         private static final String PART_USER_ID = "user_id";
         private static final String PART_IMAGES = "images[]";
         private static final String PART_LONGITUDE = "longitude";
+        public static final String MULTIPART_FORM_DATA = "multipart/form-data";
 
-        private final MultipartFileBodyCreator.Builder mFileBuilder;
+        private final List<MultipartBody.Part> mFilePartList;
         private final Map<String, RequestBody> mRequestBodyMap;
-        private List<MultipartBody.Part> mFilePart;
         private final String mEndPointFormat = "/feeds/%s/comments";
         private  String mEndPoint;
 
         public Builder(String feedId) {
             this.mRequestBodyMap = new HashMap<>();
             mEndPoint = String.format(mEndPointFormat, feedId);
-            mFileBuilder = new MultipartFileBodyCreator.Builder(PART_IMAGES);
+            mFilePartList = new ArrayList<>();
         }
 
 
         public Builder withUserId(String userId) {
-            mRequestBodyMap.put(PART_USER_ID, APIUtils.createBodyWithText(userId));
+            mRequestBodyMap.put(PART_USER_ID, RequestBody.create(MediaType.parse("text/plain"), userId));
             return this;
         }
 
         public Builder withLongitude(String latitude) {
-            mRequestBodyMap.put(PART_LONGITUDE, APIUtils.createBodyWithText(latitude));
+            mRequestBodyMap.put(PART_LONGITUDE, RequestBody.create(MediaType.parse("text/plain"), latitude));
             return this;
         }
 
         public Builder addImage(String path) {
-            mFileBuilder.addFilePath(path);
+            File file = new File(path);
+            RequestBody requestBody = RequestBody.create(MediaType.parse(MULTIPART_FORM_DATA), file);
+            mFilePartList.add(MultipartBody.Part.createFormData(PART_IMAGES, file.getName(), requestBody));
             return this;
         }
 
@@ -75,7 +78,6 @@ public class ReqSampleFormData {
         }
 
         public ReqSampleFormData build() {
-            mFilePart = mFileBuilder.build().createFilePart();
             return new ReqSampleFormData(this);
         }
     }

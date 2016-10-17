@@ -1,15 +1,13 @@
 package com.libservices.post.raw;
 
-import com.bluelinelabs.logansquare.annotation.JsonField;
-import com.bluelinelabs.logansquare.annotation.JsonObject;
+import com.google.gson.annotations.SerializedName;
 
-@JsonObject
 public class ReqRawData {
 
-    @JsonField(name = "user_id")
+    @SerializedName("user_id")
     public String mUserId;
 
-    @JsonField
+    @SerializedName("user_id")
     public String mLongitude;
 
 }

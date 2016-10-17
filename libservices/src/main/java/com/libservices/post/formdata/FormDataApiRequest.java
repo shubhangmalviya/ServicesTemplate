@@ -10,7 +10,12 @@ public class FormDataApiRequest extends ApiRequest<ReqSampleFormData, ResFormDat
 
     public FormDataApiRequest(ServiceCreator serviceCreator,
                               ErrorResponseTransformer errorResponseTransformer) {
-        super(errorResponseTransformer, serviceCreator, FormDataService.class);
+        super(errorResponseTransformer, serviceCreator);
+    }
+
+    @Override
+    protected Class<FormDataService> getServiceClass() {
+        return FormDataService.class;
     }
 
     @Override

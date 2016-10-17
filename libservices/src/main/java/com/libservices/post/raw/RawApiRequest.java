@@ -10,7 +10,12 @@ public class RawApiRequest extends ApiRequest<ReqRawData, ResRawData, RawDataSer
 
     public RawApiRequest(ErrorResponseTransformer errorResponseTransformer,
                          ServiceCreator serviceCreator) {
-        super(errorResponseTransformer, serviceCreator, RawDataService.class);
+        super(errorResponseTransformer, serviceCreator);
+    }
+
+    @Override
+    protected Class<RawDataService> getServiceClass() {
+        return RawDataService.class;
     }
 
     @Override

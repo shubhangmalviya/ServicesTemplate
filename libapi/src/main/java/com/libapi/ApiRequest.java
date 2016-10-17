@@ -15,7 +15,6 @@ public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
     private final ErrorResponseTransformer mErrorResponseTransformer;
     private final ServiceCreator mServiceCreator;
     private Call<RESPONSE> mApiCall;
-    private Class<SERVICE> mServiceClass;
 
     /**
      * Creates an instance of the api request.
@@ -24,11 +23,17 @@ public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
      * @param serviceCreator the configured service manager for creating the services instances.
      */
     public ApiRequest(ErrorResponseTransformer errorResponseTransformer,
-                      ServiceCreator serviceCreator, Class<SERVICE> serviceClass) {
+                      ServiceCreator serviceCreator) {
         mErrorResponseTransformer = errorResponseTransformer;
         mServiceCreator = serviceCreator;
-        mServiceClass = serviceClass;
     }
+
+    /**
+     * Creates an instance of the service interface class.
+     *
+     * @return the instance of class.
+     */
+    protected abstract Class<SERVICE> getServiceClass();
 
     /**
      * Makes the actual API request.
@@ -46,27 +51,19 @@ public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
      * @param responseCallback the response callback.
      */
     public void makeRequest(REQUEST request, ResponseCallback<RESPONSE> responseCallback) {
-        SERVICE service = mServiceCreator.createService(mServiceClass);
+        SERVICE service = mServiceCreator.createService(getServiceClass());
         mApiCall = makeRequest(request, service);
         mApiCall.enqueue(new ResponseWrapper<>(mErrorResponseTransformer, responseCallback));
     }
 
     /**
-     * Cancels any ongoing API call.
+     * Cancels any ongoing API call. It cancels only when api call is enqueued
+     * or is being executed and not is already cancelled.
      */
     public void cancel() {
-        APIUtils.cancelAPIRequest(mApiCall);
-        if (APIUtils.shouldDisposeAPICall(mApiCall)) {
+        if (mApiCall != null && mApiCall.isExecuted() && !mApiCall.isCanceled()) {
+            mApiCall.cancel();
             mApiCall = null;
         }
-    }
-
-    /**
-     * Checks whether an API call is in progress.
-     *
-     * @return true if an API call is in progress, false otherwise.
-     */
-    public  boolean isInProgress() {
-        return APIUtils.isAPICallInProgress(mApiCall);
     }
 }

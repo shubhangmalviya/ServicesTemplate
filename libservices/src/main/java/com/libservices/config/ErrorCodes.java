@@ -1,5 +1,5 @@
 package com.libservices.config;
 
-public enum HttpErrorCodes {
+public enum ErrorCodes {
     E_500
 }
