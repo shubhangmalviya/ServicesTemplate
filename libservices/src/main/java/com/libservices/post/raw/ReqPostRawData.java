@@ -2,7 +2,7 @@ package com.libservices.post.raw;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ReqRawData {
+public class ReqPostRawData {
 
     @SerializedName("user_id")
     public String mUserId;

@@ -1,15 +1,14 @@
-package com.libservices.post.formdata;
+package com.libservices.put.formdata;
 
 import com.libapi.ApiRequest;
 import com.libapi.ErrorResponseTransformer;
 import com.libapi.ServiceCreator;
-
 import retrofit2.Call;
 
-public class FormDataApiRequest extends ApiRequest<ReqSampleFormData, ResFormData, FormDataService> {
+public class PutFormDataApiRequest extends ApiRequest<ReqSampleFormData, ResFormData, FormDataService> {
 
-    public FormDataApiRequest(ServiceCreator serviceCreator,
-                              ErrorResponseTransformer errorResponseTransformer) {
+    public PutFormDataApiRequest(ServiceCreator serviceCreator,
+                                 ErrorResponseTransformer errorResponseTransformer) {
         super(errorResponseTransformer, serviceCreator);
     }
 
@@ -20,7 +19,7 @@ public class FormDataApiRequest extends ApiRequest<ReqSampleFormData, ResFormDat
 
     @Override
     protected Call<ResFormData> makeRequest(ReqSampleFormData reqSampleFormData, FormDataService beeahServices) {
-        return beeahServices.makeFormDataRequest(reqSampleFormData.getEndPoint(), reqSampleFormData.getFilePart(),
+        return beeahServices.makeFormDataRequest(reqSampleFormData.getFilePart(),
                 reqSampleFormData.getRequestBodyMap());
     }
 }

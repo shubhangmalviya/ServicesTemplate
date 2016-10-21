@@ -3,7 +3,7 @@ package com.libservices.post.raw;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ResRawData {
+public class ResPostRawData {
 
     @SerializedName("auth_token")
     public String mAuthToken;

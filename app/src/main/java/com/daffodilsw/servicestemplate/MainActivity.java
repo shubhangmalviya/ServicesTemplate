@@ -6,8 +6,8 @@ import com.daffodilsw.servicestemplate.session.UserSession;
 import com.libapi.ErrorResponse;
 import com.libapi.ResponseCallback;
 import com.libpersistance.SessionManager;
-import com.libservices.post.raw.RawApiRequest;
-import com.libservices.post.raw.ResRawData;
+import com.libservices.post.raw.PostRawApiRequest;
+import com.libservices.post.raw.ResPostRawData;
 
 import retrofit2.Retrofit;
 
@@ -23,11 +23,11 @@ public class MainActivity extends AppCompatActivity {
         RetrofitProvider retrofitProvider = new RetrofitProvider(sessionManager);
         Retrofit retrofit = retrofitProvider.provideRetrofit();
         RequestConfigurationProvider requestProvider = new RequestConfigurationProvider(retrofit);
-        RawApiRequest rawApiRequest = new RawApiRequest(requestProvider.getErrorResponseTransformer()
+        PostRawApiRequest postRawApiRequest = new PostRawApiRequest(requestProvider.getErrorResponseTransformer()
                 , requestProvider.getServiceCreator());
-        rawApiRequest.makeRequest(null, new ResponseCallback<ResRawData>() {
+        postRawApiRequest.makeRequest(null, new ResponseCallback<ResPostRawData>() {
             @Override
-            public void onSuccess(ResRawData data) {
+            public void onSuccess(ResPostRawData data) {
 
             }
 

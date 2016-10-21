@@ -1,4 +1,4 @@
-package com.libservices.post.formdata;
+package com.libservices.put.formdata;
 
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;

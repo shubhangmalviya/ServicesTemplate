@@ -1,4 +1,4 @@
-package com.libservices.post.formdata;
+package com.libservices.put.formdata;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;

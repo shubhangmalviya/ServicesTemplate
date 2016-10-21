@@ -1,9 +1,8 @@
-package com.libservices.post.raw;
+package com.libservices.put.raw;
 
 import com.libapi.ApiRequest;
 import com.libapi.ErrorResponseTransformer;
 import com.libapi.ServiceCreator;
-
 import retrofit2.Call;
 
 public class RawApiRequest extends ApiRequest<ReqRawData, ResRawData, RawDataService> {
