@@ -3,11 +3,11 @@ package com.libservices.post.urlformencoded;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReqSampleFormData {
+public class ReqFormEncodedData {
 
     private final Map<String, String> mRequestBodyMap;
 
-    private ReqSampleFormData(Builder builder) {
+    private ReqFormEncodedData(Builder builder) {
         mRequestBodyMap = builder.mRequestBodyMap;
     }
 
@@ -37,8 +37,8 @@ public class ReqSampleFormData {
             return this;
         }
 
-        public ReqSampleFormData build() {
-            return new ReqSampleFormData(this);
+        public ReqFormEncodedData build() {
+            return new ReqFormEncodedData(this);
         }
     }
 }

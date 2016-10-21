@@ -13,6 +13,6 @@ public interface FormUrlEncodedService {
 
     @FormUrlEncoded
     @POST(PATH_POST)
-    Call<ResFormData> makeFormEncodedRequest(@FieldMap Map<String, String> requestMap);
+    Call<ResFormEncodedData> makeFormEncodedRequest(@FieldMap Map<String, String> requestMap);
 
 }

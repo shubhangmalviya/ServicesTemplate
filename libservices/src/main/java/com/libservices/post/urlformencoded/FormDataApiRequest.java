@@ -5,7 +5,7 @@ import com.libapi.ErrorResponseTransformer;
 import com.libapi.ServiceCreator;
 import retrofit2.Call;
 
-public class FormDataApiRequest extends ApiRequest<ReqSampleFormData, ResFormData, FormUrlEncodedService> {
+public class FormDataApiRequest extends ApiRequest<ReqFormEncodedData, ResFormEncodedData, FormUrlEncodedService> {
 
     public FormDataApiRequest(ServiceCreator serviceCreator,
                               ErrorResponseTransformer errorResponseTransformer) {
@@ -18,7 +18,7 @@ public class FormDataApiRequest extends ApiRequest<ReqSampleFormData, ResFormDat
     }
 
     @Override
-    protected Call<ResFormData> makeRequest(ReqSampleFormData reqSampleFormData, FormUrlEncodedService beeahServices) {
-        return beeahServices.makeFormEncodedRequest(reqSampleFormData.getRequestBodyMap());
+    protected Call<ResFormEncodedData> makeRequest(ReqFormEncodedData reqFormEncodedData, FormUrlEncodedService beeahServices) {
+        return beeahServices.makeFormEncodedRequest(reqFormEncodedData.getRequestBodyMap());
     }
 }
