@@ -1,25 +1,23 @@
 package com.libservices.post.formdata;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-
 public class ReqSampleFormData {
 
     private final Map<String, RequestBody> mRequestBodyMap;
     private final List<MultipartBody.Part> mFilePart;
-    private  String mEndPoint;
 
     private ReqSampleFormData(Builder builder) {
         mRequestBodyMap = builder.mRequestBodyMap;
         mFilePart = builder.mFilePartList;
-        mEndPoint = builder.mEndPoint;
     }
 
     public Map<String, RequestBody> getRequestBodyMap() {
@@ -28,10 +26,6 @@ public class ReqSampleFormData {
 
     public List<MultipartBody.Part> getFilePart() {
         return mFilePart;
-    }
-
-    public String getEndPoint() {
-        return mEndPoint;
     }
 
     public static final class Builder {
@@ -43,12 +37,9 @@ public class ReqSampleFormData {
 
         private final List<MultipartBody.Part> mFilePartList;
         private final Map<String, RequestBody> mRequestBodyMap;
-        private final String mEndPointFormat = "/feeds/%s/comments";
-        private  String mEndPoint;
 
         public Builder(String feedId) {
             this.mRequestBodyMap = new HashMap<>();
-            mEndPoint = String.format(mEndPointFormat, feedId);
             mFilePartList = new ArrayList<>();
         }
 
@@ -63,6 +54,8 @@ public class ReqSampleFormData {
             return this;
         }
 
+        // TODO somehow notify the listeners that upload is going to happen.
+        // TODO use progress upload classes.
         public Builder addImage(String path) {
             File file = new File(path);
             RequestBody requestBody = RequestBody.create(MediaType.parse(MULTIPART_FORM_DATA), file);

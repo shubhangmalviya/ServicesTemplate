@@ -29,9 +29,9 @@ public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
     }
 
     /**
-     * Creates an instance of the service interface class.
+     * This is required in order to create the instance of the service class.
      *
-     * @return the instance of class.
+     * @return the service interface class.
      */
     protected abstract Class<SERVICE> getServiceClass();
 
