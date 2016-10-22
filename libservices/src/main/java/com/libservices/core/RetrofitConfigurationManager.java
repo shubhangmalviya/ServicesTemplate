@@ -1,4 +1,4 @@
-package com.libservices.config;
+package com.libservices.core;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

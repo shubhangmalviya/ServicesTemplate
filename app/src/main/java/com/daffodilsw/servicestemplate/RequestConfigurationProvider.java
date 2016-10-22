@@ -3,8 +3,8 @@ package com.daffodilsw.servicestemplate;
 import com.libapi.ErrorLookupTable;
 import com.libapi.ErrorResponseTransformer;
 import com.libapi.ServiceCreator;
-import com.libservices.config.AppErrorResponseTransformer;
-import com.libservices.config.HttpErrorLookupComposer;
+import com.libservices.core.AppErrorResponseTransformer;
+import com.libservices.core.HttpErrorLookupComposer;
 
 import retrofit2.Retrofit;
 

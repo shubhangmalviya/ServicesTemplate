@@ -1,8 +1,8 @@
 package com.daffodilsw.servicestemplate;
 
 import com.libpersistance.SessionManager;
-import com.libservices.config.HeaderRequestInterceptor;
-import com.libservices.config.RetrofitConfigurationManager;
+import com.libservices.core.HeaderRequestInterceptor;
+import com.libservices.core.RetrofitConfigurationManager;
 
 import retrofit2.Retrofit;
 

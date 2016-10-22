@@ -1,4 +1,4 @@
-package com.libservices.config;
+package com.libservices.core;
 
 import com.libpersistance.Session;
 import com.libpersistance.SessionManager;

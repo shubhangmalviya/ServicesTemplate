@@ -1,4 +1,4 @@
-package com.libservices.config;
+package com.libservices.core;
 
 import com.libapi.ErrorLookupTable;
 import com.libapi.ErrorResponse;

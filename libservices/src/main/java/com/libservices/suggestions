@@ -7,3 +7,4 @@
 7. Cache policy creation as sometimes response are not cacheable.
 8. Same Key and multiple values like name=x&name=y, handling of varargs required some how.
 9. Include the query param in almost all supported operations.
+10. HEAD and PATCH can also be included.
