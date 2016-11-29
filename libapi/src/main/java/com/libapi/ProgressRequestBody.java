@@ -1,7 +1,9 @@
 package com.libapi;
 
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.webkit.MimeTypeMap;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,20 +15,24 @@ import okio.BufferedSink;
 
 public class ProgressRequestBody extends RequestBody {
     private File mFile;
-    private String mPath;
     private UploadCallbacks mListener;
 
     private static final int DEFAULT_BUFFER_SIZE = 2048;
 
-    public ProgressRequestBody(final File file, final UploadCallbacks listener) {
+    public ProgressRequestBody(File file, UploadCallbacks listener) {
         mFile = file;
         mListener = listener;
     }
 
     @Override
     public MediaType contentType() {
-        // i want to upload only images
-        return MediaType.parse("image/*");
+        String url = Uri.fromFile(mFile).toString();
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url).toLowerCase();
+        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        if (mimeType == null) {
+            return MediaType.parse("*/*");
+        }
+        return MediaType.parse(mimeType);
     }
 
     @Override
@@ -47,7 +53,9 @@ public class ProgressRequestBody extends RequestBody {
             while ((read = in.read(buffer)) != -1) {
 
                 // update progress on UI thread
-                handler.post(new ProgressUpdater(uploaded, fileLength));
+                if (mListener != null) {
+                    handler.post(new ProgressUpdater(uploaded, fileLength));
+                }
 
                 uploaded += read;
                 sink.write(buffer, 0, read);

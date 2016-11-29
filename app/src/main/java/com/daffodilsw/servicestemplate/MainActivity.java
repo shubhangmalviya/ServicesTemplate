@@ -2,12 +2,15 @@ package com.daffodilsw.servicestemplate;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
 import com.daffodilsw.servicestemplate.session.UserSession;
 import com.libapi.ErrorResponse;
 import com.libapi.ResponseCallback;
+import com.libapi.UploadCallbacks;
 import com.libpersistance.SessionManager;
-import com.libservices.post.raw.PostRawApiRequest;
-import com.libservices.post.raw.ResPostRawData;
+import com.libservices.post.formdata.PostFormDataApiRequest;
+import com.libservices.post.formdata.ReqPostFormData;
+import com.libservices.post.formdata.ResPostFormData;
 
 import retrofit2.Retrofit;
 
@@ -23,11 +26,19 @@ public class MainActivity extends AppCompatActivity {
         RetrofitProvider retrofitProvider = new RetrofitProvider(sessionManager);
         Retrofit retrofit = retrofitProvider.provideRetrofit();
         RequestConfigurationProvider requestProvider = new RequestConfigurationProvider(retrofit);
-        PostRawApiRequest postRawApiRequest = new PostRawApiRequest(requestProvider.getErrorResponseTransformer()
-                , requestProvider.getServiceCreator());
-        postRawApiRequest.makeRequest(null, new ResponseCallback<ResPostRawData>() {
+
+        ReqPostFormData reqPostFormData = new ReqPostFormData.Builder()
+                .addImage("", new UploadCallbacks() {
+                    @Override
+                    public void onProgressUpdate(int percentage) {
+
+                    }
+                }).build();
+
+        PostFormDataApiRequest postRawApiRequest = new PostFormDataApiRequest(requestProvider.getServiceCreator(), requestProvider.getErrorResponseTransformer());
+        postRawApiRequest.makeRequest(reqPostFormData, new ResponseCallback<ResPostFormData>() {
             @Override
-            public void onSuccess(ResPostRawData data) {
+            public void onSuccess(ResPostFormData data) {
 
             }
 
