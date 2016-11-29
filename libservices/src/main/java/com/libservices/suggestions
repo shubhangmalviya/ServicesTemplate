@@ -10,3 +10,4 @@
 10. HEAD and PATCH can also be included.
 11. No Need to generate the classes that have zero configuration required by builder in request.
 12. Configuration on UI if the user wants the upload callback or not for an Image. (This would be an advanced option).
+13. While creating a service need to understand the base url, so that this could be ignored while creating the service.
