@@ -6,8 +6,11 @@ import retrofit2.http.Body;
 
 public interface ServiceTest {
 
-    Call<ResPostFormData1> makeFormDataRequest(@Body RequestBody body);
-
-
+    /**
+     * This is valid for the request which has a body.
+     * @param body
+     * @return
+     */
+    Call<ResPostFormData1> makeRequest(@Body RequestBody body);
 
 }
