@@ -2,33 +2,51 @@ package com.libapi.request;
 
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class QueryParam {
 
+    private final Map<String, String> mQueryParam;
 
-    public static class Builder {
-        private final Map<String, String> mNonRepeatableNameValues;
-        private final Map<String, List<String>> mRepeatableNameValues;
+    private QueryParam(DistinctParamBuilder distinctParamBuilder) {
+        mQueryParam = distinctParamBuilder.mQueryParam;
+    }
 
-        public Builder() {
-            mNonRepeatableNameValues = new HashMap<>();
-            mRepeatableNameValues = new HashMap<>();
+    public Map<String, String> getQueryParam() {
+        return mQueryParam;
+    }
+
+    public static class DistinctParamBuilder {
+        private final Map<String, String> mQueryParam;
+
+        public DistinctParamBuilder() {
+            mQueryParam = new HashMap<>();
         }
 
-        public Builder addNonRepeatableQueryParam(String name, String value) {
+        public DistinctParamBuilder addQueryParam(String name, String value) {
+            mQueryParam.put(name, value);
+            return this;
+        }
+
+        public QueryParam build() {
+            return new QueryParam(this);
+        }
+    }
+
+    public static class UrlBuilder {
+
+        private final String mRelativeUrl;
+
+
+        public UrlBuilder(String relativeUrl) {
+            mRelativeUrl = relativeUrl;
+        }
+
+        public UrlBuilder addQueryParam(String name, String value) {
 
             return this;
         }
 
-        public Builder addRepeatableQueryParam(String name, String value) {
 
-            return this;
-        }
-
-        public void build() {
-
-        }
     }
 }

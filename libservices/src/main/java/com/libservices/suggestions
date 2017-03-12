@@ -5,10 +5,28 @@
 5. Request creation should also include Error Mapping.
 6. Response parsing might not be necessary, as they can be optional or sometimes no response at all.
 7. Cache policy creation as sometimes response are not cacheable.
-8. Same Key and multiple values like name=x&name=y, handling of varargs required some how.
+8. **No Longer Valid** - Same Key and multiple values like name=x&name=y, handling of varargs required some how.
 9. Include the query param in almost all supported operations.
-10. HEAD and PATCH can also be included.
+10. HEAD and PATCH, OPTIONS can also be included.
 11. No Need to generate the classes that have zero configuration required by builder in request.
 12. Configuration on UI if the user wants the upload callback or not for an Image. (This would be an advanced option).
 13. While creating a service need to understand the base url, so that this could be ignored while creating the service.
-14. Query parameter could be repeatable check for this with user while creating the Query param as a part of collection importing.
+14. **No Longer Valid** - Query parameter could be repeatable check, then it should be added in the same order as the parameter order for this with user while creating the Query param as a part of collection importing.
+15. Ask user whether these Query Param are already encoded?
+15. Give user a choice to Configure for bulk import or configure each request.
+16. Give user the option to either select a header to be part of the Request dynamically (Distinct Keys multiple Header, Single Header) (in the RequestBuilder) or statically (in the Retrofit interface).
+17. Leave some part of the Url as Base Url.
+18. Discarded (Url contains the query - Hybrid) otherwise consideration for path, Single Query , or a query map - Distinct 2, only repeatable type query. - Only 1 Repeatable kind
+18.1 Single Query only
+18.2 n Distinct Single Query; n>1
+18.3 Single Query + n Repeatable Array Query
+18.4 n Distinct Query + n Repeatable Array Query;
+http://example.com/foo/bar/?a=b&c=d&key=1&key=2&key=three&key=1&key2=1&key2=2
+
+
+@QueryMap Map<String, String> param, @Query(“key”) List<String> paramKey, @Query(“key2”), List<String> paramKey2
+
+possibleRepeatableKeys = [key, key2]
+parameterPosition = [1, 2]
+
+19. FormField, Query Param check if already encoded.
