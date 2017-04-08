@@ -8,8 +8,8 @@ import retrofit2.Call;
  *
  * @param <REQUEST> the type of request object.
  * @param <RESPONSE> the type of response object.
+ * @param <SERVICE> the type of service to be created.
  */
-// Future we have to prepare error response message.
 public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
 
     private final ErrorResponseTransformer mErrorResponseTransformer;
@@ -43,6 +43,13 @@ public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
      * @return the API call instance.
      */
     protected abstract Call<RESPONSE> makeRequest(REQUEST request, SERVICE service);
+
+    /**
+     * Prepares the error lookup messages for this particular API Request.
+     *
+     * @return the error look up table.
+     */
+    protected abstract ErrorLookupTable prepareErrorLookupMessages();
 
     /**
      * Invokes an API request on the cloud.

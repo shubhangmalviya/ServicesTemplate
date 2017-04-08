@@ -31,6 +31,15 @@ public class ErrorLookupTable {
     }
 
     /**
+     * Gets the error map to give fine grained access to the Android Map APIs.
+     *
+     * @return the Map implementation.
+     */
+    protected Map<Enum, Integer> getErrorMap() {
+        return mErrorCodeMap;
+    }
+
+    /**
      * Resolves the error code to the display message.
      * @param errorCode the error code.
      * @return the translated message equivalent of the error code.

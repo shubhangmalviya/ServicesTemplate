@@ -17,6 +17,13 @@ public abstract class ErrorResponseTransformer {
     }
 
     /**
+     * Creates the instance.
+     */
+    public ErrorResponseTransformer() {
+        mErrorLookupTable = new ErrorLookupTable();
+    }
+
+    /**
      * Provides an easy way to intercept and mutate the Error response delivered.
      *
      * @param httpStatusCode the HTTP status code.
