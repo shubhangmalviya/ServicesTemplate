@@ -2,6 +2,9 @@ package com.libapi;
 
 import retrofit2.Call;
 
+import static com.libapi.ApiRequest.ErrorLookUpMergingStrategy.ACCEPT_LOCAL;
+import static com.libapi.ApiRequest.ErrorLookUpMergingStrategy.ACCEPT_REMOTE;
+
 /**
  * Implementation for a single api request.
  * It has features to cancel and check whether api call is in progress.
@@ -13,7 +16,9 @@ import retrofit2.Call;
 public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
 
     private final ErrorResponseTransformer mErrorResponseTransformer;
+    private final ErrorLookupMerger mErrorLookupMerger;
     private final ServiceCreator mServiceCreator;
+    private ErrorLookUpMergingStrategy mErrorLookUpMergingStrategy = ACCEPT_REMOTE;
     private Call<RESPONSE> mApiCall;
 
     /**
@@ -26,6 +31,7 @@ public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
                       ServiceCreator serviceCreator) {
         mErrorResponseTransformer = errorResponseTransformer;
         mServiceCreator = serviceCreator;
+        mErrorLookupMerger = new ErrorLookupMerger();
     }
 
     /**
@@ -51,6 +57,10 @@ public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
      */
     protected abstract ErrorLookupTable prepareErrorLookupMessages();
 
+    public void setErrorLookUpMergingStrategy(ErrorLookUpMergingStrategy errorLookUpMergingStrategy) {
+        mErrorLookUpMergingStrategy = errorLookUpMergingStrategy;
+    }
+
     /**
      * Invokes an API request on the cloud.
      *
@@ -59,8 +69,34 @@ public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
      */
     public void makeRequest(REQUEST request, ResponseCallback<RESPONSE> responseCallback) {
         SERVICE service = mServiceCreator.createService(getServiceClass());
+        mergeRemoteAndLocalErrorLookup();
         mApiCall = makeRequest(request, service);
         mApiCall.enqueue(new ResponseWrapper<>(mErrorResponseTransformer, responseCallback));
+    }
+
+    /**
+     * Merges the error lookup table with outside high priority.
+     */
+    private void mergeRemoteAndLocalErrorLookup() {
+        ErrorLookupTable locallyCreated = prepareErrorLookupMessages();
+        ErrorLookupTable remotelyProvided = mErrorResponseTransformer.getErrorLookupTable();
+
+        ErrorLookupTable errorLookupTable = mErrorLookUpMergingStrategy == ACCEPT_LOCAL ?
+                acceptLocalStrategy(locallyCreated, remotelyProvided) :
+               acceptRemoteStrategy(locallyCreated, remotelyProvided) ;
+
+        mErrorResponseTransformer.setErrorLookupTable(errorLookupTable);
+    }
+
+    private ErrorLookupTable acceptLocalStrategy(ErrorLookupTable locallyCreated, ErrorLookupTable remotelyProvided) {
+
+        return mErrorLookupMerger.mergeErrorMessages(locallyCreated, remotelyProvided,
+        ErrorLookupMerger.Strategy.ACCEPT_LEFT);
+    }
+
+    private ErrorLookupTable acceptRemoteStrategy(ErrorLookupTable locallyCreated, ErrorLookupTable remotelyProvided) {
+        return mErrorLookupMerger.mergeErrorMessages(locallyCreated, remotelyProvided,
+                ErrorLookupMerger.Strategy.ACCEPT_RIGHT);
     }
 
     /**
@@ -72,5 +108,9 @@ public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
             mApiCall.cancel();
             mApiCall = null;
         }
+    }
+
+    public enum ErrorLookUpMergingStrategy {
+        ACCEPT_REMOTE, ACCEPT_LOCAL
     }
 }

@@ -6,7 +6,7 @@ package com.libapi;
  */
 public abstract class ErrorResponseTransformer {
 
-    private final ErrorLookupTable mErrorLookupTable;
+    private ErrorLookupTable mErrorLookupTable;
 
     /**
      * Creates the instance.
@@ -30,6 +30,14 @@ public abstract class ErrorResponseTransformer {
      * @param errorResponsePayload the error response payload received.
      */
     public abstract ErrorResponse transform(int httpStatusCode, String errorResponsePayload);
+
+    /**
+     * Sets the error message resolver to resolve errors.
+     * @param errorLookupTable the error message resolver used to look up.
+     */
+    public void setErrorLookupTable(ErrorLookupTable errorLookupTable) {
+        mErrorLookupTable = errorLookupTable;
+    }
 
     /**
      * Gets the error message resolver associated with this instance.

@@ -1,9 +1,13 @@
 package com.libservices.post.sample;
 
 import com.libapi.ApiRequest;
+import com.libapi.ApplicationErrorCodes;
 import com.libapi.ErrorLookupTable;
 import com.libapi.ErrorResponseTransformer;
 import com.libapi.ServiceCreator;
+import com.libservices.R;
+import com.libservices.core.ErrorCodes;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -80,7 +84,12 @@ public class SampleQueryRequestPlayground {
 
         @Override
         protected ErrorLookupTable prepareErrorLookupMessages() {
-            return null;
+            ErrorLookupTable errorLookupTable = new ErrorLookupTable();
+
+            errorLookupTable.translate(ApplicationErrorCodes.INTERNET_ERROR, R.string.err_connectivity);
+            errorLookupTable.translate(ErrorCodes.E_500, R.string.err_internal_server_error);
+
+            return errorLookupTable;
         }
     }
 

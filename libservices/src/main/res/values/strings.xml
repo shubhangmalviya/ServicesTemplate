@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="internal_server_error">internal server error</string>
+    <string name="err_connectivity">Please check your internet connection 2</string>
+    <string name="err_internal_server_error">Internal Server error</string>
 </resources>
