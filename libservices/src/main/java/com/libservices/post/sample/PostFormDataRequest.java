@@ -1,12 +1,14 @@
 package com.libservices.post.sample;
 
-import com.libapi.request.FormDataRequestBuilder;
-import com.libapi.request.providers.HeaderProvider;
-import com.libapi.request.providers.DistinctQueryProvider;
-import com.libapi.request.providers.RequestBodyProvider;
 import com.libapi.UploadCallbacks;
+import com.libapi.request.FormDataRequestBuilder;
 import com.libapi.request.Header;
 import com.libapi.request.QueryParam;
+import com.libapi.request.providers.DistinctQueryProvider;
+import com.libapi.request.providers.HeaderProvider;
+import com.libapi.request.providers.RequestBodyProvider;
+
+import java.util.Map;
 
 import okhttp3.RequestBody;
 
@@ -25,8 +27,8 @@ public class PostFormDataRequest implements RequestBodyProvider, DistinctQueryPr
     private static final String HEADER_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
     private final FormDataRequestBuilder mFormDataRequestBuilder;
-    private final QueryParam.DistinctParamBuilder mQueryParamDistinctParamBuilder;
-    private final Header.Builder mHeaderBuilder;
+    private final Map<String, String> mQueryParamDistinctParamBuilder;
+    private final Map<String, String> mHeaderBuilder;
 
     public PostFormDataRequest() {
         mFormDataRequestBuilder = new FormDataRequestBuilder();
