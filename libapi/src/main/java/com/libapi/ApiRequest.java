@@ -57,6 +57,13 @@ public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
      */
     protected abstract ErrorLookupTable prepareErrorLookupMessages();
 
+    /**
+     * Sets the strategy for error lookup, in case of a lookup existing in the API request class
+     * and the lookup coming from the Business layer, which one to choose.
+     * The Default is {@link ErrorLookUpMergingStrategy#ACCEPT_REMOTE}
+     * @param errorLookUpMergingStrategy Strategy either one of {@link ErrorLookUpMergingStrategy#ACCEPT_REMOTE}
+     *                                   or {@link ErrorLookUpMergingStrategy#ACCEPT_LOCAL}
+     */
     public void setErrorLookUpMergingStrategy(ErrorLookUpMergingStrategy errorLookUpMergingStrategy) {
         mErrorLookUpMergingStrategy = errorLookUpMergingStrategy;
     }
@@ -110,7 +117,17 @@ public abstract class ApiRequest<REQUEST, RESPONSE, SERVICE> {
         }
     }
 
+    /**
+     * Strategy for merging the error lookup values either coming from the API layer and the BL layer
+     */
     public enum ErrorLookUpMergingStrategy {
-        ACCEPT_REMOTE, ACCEPT_LOCAL
+        /**
+         * The remote strategy would accept the values from the BL layer.
+         */
+        ACCEPT_REMOTE,
+        /**
+         * The local strategy would accept the values from the API layer.
+         */
+        ACCEPT_LOCAL
     }
 }

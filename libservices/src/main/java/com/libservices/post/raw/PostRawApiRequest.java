@@ -1,6 +1,7 @@
 package com.libservices.post.raw;
 
 import com.libapi.ApiRequest;
+import com.libapi.ErrorLookupTable;
 import com.libapi.ErrorResponseTransformer;
 import com.libapi.ServiceCreator;
 
@@ -21,5 +22,10 @@ public class PostRawApiRequest extends ApiRequest<ReqPostRawData, ResPostRawData
     @Override
     protected Call<ResPostRawData> makeRequest(ReqPostRawData reqPostRawData, PostRawDataService postRawDataService) {
         return postRawDataService.postRequest(reqPostRawData);
+    }
+
+    @Override
+    protected ErrorLookupTable prepareErrorLookupMessages() {
+        return null;
     }
 }

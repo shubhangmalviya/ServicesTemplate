@@ -1,6 +1,7 @@
 package com.libservices.post.formdata;
 
 import com.libapi.ApiRequest;
+import com.libapi.ErrorLookupTable;
 import com.libapi.ErrorResponseTransformer;
 import com.libapi.ServiceCreator;
 
@@ -22,5 +23,10 @@ public class PostFormDataApiRequest extends ApiRequest<ReqPostFormData, ResPostF
     protected Call<ResPostFormData> makeRequest(ReqPostFormData reqPostFormData, PostFormDataService beeahServices) {
         return beeahServices.makeFormDataRequest(reqPostFormData.getFilePart(),
                 reqPostFormData.getRequestBodyMap());
+    }
+
+    @Override
+    protected ErrorLookupTable prepareErrorLookupMessages() {
+        return null;
     }
 }
