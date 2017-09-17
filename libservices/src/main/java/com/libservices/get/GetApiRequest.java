@@ -1,6 +1,7 @@
 package com.libservices.get;
 
 import com.libapi.ApiRequest;
+import com.libapi.ErrorLookupTable;
 import com.libapi.ErrorResponseTransformer;
 import com.libapi.ServiceCreator;
 import retrofit2.Call;
@@ -20,5 +21,10 @@ public class GetApiRequest extends ApiRequest<ReqGetData, ResGetData, GetDataSer
     @Override
     protected Call<ResGetData> makeRequest(ReqGetData reqGetData, GetDataService getDataService) {
         return getDataService.getUserQueryParam(reqGetData.getQueryMap());
+    }
+
+    @Override
+    protected ErrorLookupTable prepareErrorLookupMessages() {
+        return null;
     }
 }

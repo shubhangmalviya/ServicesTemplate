@@ -21,8 +21,7 @@ public class PostFormDataApiRequest extends ApiRequest<ReqPostFormData, ResPostF
 
     @Override
     protected Call<ResPostFormData> makeRequest(ReqPostFormData reqPostFormData, PostFormDataService beeahServices) {
-        return beeahServices.makeFormDataRequest(reqPostFormData.getFilePart(),
-                reqPostFormData.getRequestBodyMap());
+        return beeahServices.makeFormDataRequest(reqPostFormData.getMultipartBody());
     }
 
     @Override

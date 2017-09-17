@@ -15,10 +15,10 @@ android {
 
     buildTypes {
         live {
-             buildConfigField("String", "BASE_URL", "\"some url\"" )
+             buildConfigField("String", "BASE_URL", "\"https://requestb.in\"" )
         }
         debug {
-            buildConfigField("String", "BASE_URL", "\"some url\"" )
+            buildConfigField("String", "BASE_URL", "\"https://requestb.in\"" )
         }
     }
 }

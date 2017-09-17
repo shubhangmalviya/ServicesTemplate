@@ -1,35 +1,19 @@
 package com.libservices.post.formdata;
 
-import com.libapi.ProgressRequestBody;
 import com.libapi.UploadCallbacks;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import okhttp3.MediaType;
+import com.libapi.request.FormDataRequestBuilder;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 public class ReqPostFormData {
 
-
-    private final Map<String, RequestBody> mRequestBodyMap;
-    private final List<MultipartBody.Part> mFilePart;
+    private final MultipartBody mMultipartBody;
 
     private ReqPostFormData(Builder requestBuilder) {
-        mRequestBodyMap = requestBuilder.mRequestBodyMap;
-        mFilePart = requestBuilder.mFilePartList;
+        mMultipartBody = requestBuilder.mMultipartBody;
     }
 
-    public List<MultipartBody.Part> getFilePart() {
-        return mFilePart;
-    }
-
-    public Map<String, RequestBody> getRequestBodyMap() {
-        return mRequestBodyMap;
+    public MultipartBody getMultipartBody() {
+        return mMultipartBody;
     }
 
     public static final class Builder {
@@ -47,47 +31,50 @@ public class ReqPostFormData {
 
         public static final String PART_USER_PICTURE = "user_picture";
 
-        private final List<MultipartBody.Part> mFilePartList;
-        private final Map<String, RequestBody> mRequestBodyMap;
+        private MultipartBody mMultipartBody;
+        private FormDataRequestBuilder mFormDataRequestBuilder;
 
         public Builder() {
-            mRequestBodyMap = new HashMap<>();
-            mFilePartList = new ArrayList<>();
+            mFormDataRequestBuilder = new FormDataRequestBuilder();
         }
 
         public Builder withUsername(String username) {
-            mRequestBodyMap.put(PART_USERNAME, RequestBody.create(MediaType.parse("text/plain"), username));
+            mFormDataRequestBuilder.addPart(PART_USERNAME, username);
             return this;
         }
 
-        public void withEmail(String email) {
-            mRequestBodyMap.put(PART_EMAIL, RequestBody.create(MediaType.parse("text/plain"), email));
+        public Builder withEmail(String email) {
+            mFormDataRequestBuilder.addPart(PART_EMAIL, email);
+            return this;
         }
 
-        public void withPassword(String password) {
-            mRequestBodyMap.put(PART_PASSWORD, RequestBody.create(MediaType.parse("text/plain"), password));
+        public Builder withPassword(String password) {
+            mFormDataRequestBuilder.addPart(PART_PASSWORD, password);
+            return this;
         }
 
-        public void withType(String type) {
-            mRequestBodyMap.put(PART_TYPE, RequestBody.create(MediaType.parse("text/plain"), type));
+        public Builder withType(String type) {
+            mFormDataRequestBuilder.addPart(PART_TYPE, type);
+            return this;
         }
 
-        public void withPreferredLanguage(String preferredLanguage) {
-            mRequestBodyMap.put(PART_PREFERRED_LANGUAGE, RequestBody.create(MediaType.parse("text/plain"), preferredLanguage));
+        public Builder withPreferredLanguage(String preferredLanguage) {
+            mFormDataRequestBuilder.addPart(PART_PREFERRED_LANGUAGE, preferredLanguage);
+            return this;
         }
 
-        public void withMobile(String mobile) {
-            mRequestBodyMap.put(PART_MOBILE, RequestBody.create(MediaType.parse("text/plain"), mobile));
+        public Builder withMobile(String mobile) {
+            mFormDataRequestBuilder.addPart(PART_MOBILE, mobile);
+            return this;
         }
 
         public Builder addImage(String path, UploadCallbacks uploadCallbacks) {
-            File file = new File(path);
-            ProgressRequestBody requestBody = new ProgressRequestBody(file, uploadCallbacks);
-            mFilePartList.add(MultipartBody.Part.createFormData(PART_USER_PICTURE, file.getName(), requestBody));
+            mFormDataRequestBuilder.addFilePart(PART_USER_PICTURE, path, uploadCallbacks);
             return this;
         }
 
         public ReqPostFormData build() {
+            mMultipartBody = mFormDataRequestBuilder.build();
             return new ReqPostFormData(this);
         }
     }
